@@ -2,16 +2,15 @@
     <string name="app_name">PSP_BT</string>
     <string name="action_settings">Settings</string>
 
-    <string name="pdf_customer">Customer</string>
-    <string name="pdf_company">Company</string>
-    <string name="pdf_location">Location</string>
-    <string name="pdf_operator">Operator</string>
-    <string name="pdf_filename">Filename</string>
-    <string name="pdf_comment" >Comment</string>
-    <string name="pdf_job_id">Job ID</string>
-    <string name="pdf_cable_id">Cable ID</string>
-    <string name="pdf_cable_end">Cable End</string>
-    <string name="pdf_fiber_id">Fiber ID</string>
-    <string name="pdf_datetime">Date/Time</string>
+    <string name="pdf_customer" >Customer</string>
+    <string name="pdf_operator" >Operator</string>
+    <string name="pdf_device_id" >Device ID</string>
+    <string name="pdf_device_sn" >Device ser.</string>
+    <string name="pdf_sw_version">Software version</string>
+    <string name="pdf_otdr_end"  >OTDR End</string>
+    <string name="pdf_far_end"   >FAR End</string>
+    <string name="pdf_cable"     >Cable</string>
+    <string name="pdf_link"      >Link</string>
+    <string name="pdf_time_stamp">Date/Time</string>
 
 </resources>

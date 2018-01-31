@@ -2,8 +2,10 @@ package com.fods.psp_bt;
 
 
 import android.icu.text.DecimalFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import java.io.File;
@@ -13,7 +15,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.TimeZone;
 
 import static android.content.ContentValues.TAG;
 import static com.fods.psp_bt.SOR.Constants.BELL_FODPARAMS_MAGIC;
@@ -292,6 +298,20 @@ public class SOR {
         public int NF;	/*uint16_t Noise Floor Level */
         public int  FPO; /*int32_t Front Panel Offset */
 
+        public String CID;
+        public String FID;
+        public String OL;
+        public String TL;
+        public String CCD;
+
+        public String SN;
+        public String MFID;
+        public String OTDR;
+        public String OMID;
+        public String OMSN;
+        public String SR;
+        public String OT;
+
         public int  TraceValid; //int16_t
         public int  EventValid; //int16_t
 
@@ -542,11 +562,12 @@ public class SOR {
         byte[] bNumberOfBlocks = new byte[2];
         int AllSize;
 
-        int flg_DataPts, flg_GenParams, flg_FxdParams, flg_FodParams,
+        int flg_DataPts, flg_GenParams,flg_SupParams, flg_FxdParams, flg_FodParams,
                 flg_Fod02Params, flg_Fod03Params, flg_Fod04Params, flg_Fod05Params, flg_KeyEvents;
 
         int size_DataPts = 0;
         int size_GenParams = 0;
+        int size_SupParams = 0;
         int size_FxdParams = 0;
         int size_FodParams = 0;
         int size_Fod02Params = 0;
@@ -556,7 +577,8 @@ public class SOR {
         int size_KeyEvents = 0;
 
         int rev_DataPts = 0;
-        int rev_GenParams = 0; 
+        int rev_GenParams = 0;
+        int rev_SupParams = 0;
         int rev_FxdParams= 0;
         int rev_FodParams= 0;
         int rev_Fod02Params= 0;
@@ -644,6 +666,7 @@ public class SOR {
 
         flg_DataPts   = 0;
         flg_GenParams = 0;
+        flg_SupParams = 0;
         flg_FxdParams = 0;
         flg_FodParams = 0;
         flg_Fod02Params = 0;
@@ -671,6 +694,10 @@ public class SOR {
                 flg_GenParams = 1;
                 rev_GenParams = bytesToShort(BlockRev);
                 size_GenParams = AllSize;
+            }else if (strBlockName.compareTo("SupParams") == 0){
+                flg_SupParams = 1;
+                size_SupParams = AllSize;
+                rev_SupParams = bytesToShort(BlockRev);
             }else if (strBlockName.compareTo("FxdParams") == 0){
                 flg_FxdParams = 1;
                 size_FxdParams = AllSize;
@@ -736,22 +763,37 @@ public class SOR {
                 fis.getChannel().position(fis.getChannel().position()+10);
             }
 
-            for (int i = 0; i < 2; i++) {
-                f_gets();
-            }
+            TestParamS.CID = f_gets();
+            TestParamS.FID = f_gets();
+
             if (rev_GenParams >= 0xC8){
                 fis.getChannel().position(fis.getChannel().position()+2); /* Fiber Type */
             }
             TestParamS.NW = f_read_unt16(); /* Nominal Wavelength */
 
-            for (int i = 0; i < 3; i++)
-            {
-                f_gets();
-            }
+            TestParamS.OL = f_gets();
+            TestParamS.TL = f_gets();
+            TestParamS.CCD = f_gets();
 
             fis.getChannel().position(fis.getChannel().position()+2);
             int uo = f_read_int32(); /* User Offset */
             TestParamS.UO = uo; /* User Offset */
+        }
+
+        if (flg_SupParams == 1)
+        {
+            fis.getChannel().position(size_SupParams);
+            if (rev_SupParams >= 0xC8) {
+                fis.getChannel().position(fis.getChannel().position()+10);
+            }
+
+            TestParamS.SN = f_gets();
+            TestParamS.MFID = f_gets();
+            TestParamS.OTDR = f_gets();
+            TestParamS.OMID = f_gets();
+            TestParamS.OMSN = f_gets();
+            TestParamS.SR = f_gets();
+            TestParamS.OT = f_gets();
         }
 
         if (flg_FxdParams == 1)
@@ -970,6 +1012,7 @@ public class SOR {
             }
             TestParamS.TNKE = f_read_unt16();               /* Number of Key Events */
             if (TestParamS.TNKE > MAX_TNKE){return 1;}
+            Events.N = 0;
 
             for (int i = 0; i < TestParamS.TNKE; i++)
             {
@@ -1478,6 +1521,15 @@ public class SOR {
         return str;
     }
 
+    static String getDeviceId(){
+        String str = " - ";
+        //if(TestParamS. != 0) {
+        //    double l = Events.ACI[ev_nr] * 0.001;
+        //    str = String.format("%.03f", l);
+        //}
+        return str;
+    }
+
     public static byte[] toBytes(short s) {
         return new byte[]{0, 0, (byte) ((s & 0xFF00) >> 8), (byte) (s & 0x00FF)};
     }
@@ -1487,5 +1539,16 @@ public class SOR {
         //ByteBuffer buf = ByteBuffer.wrap(arr); // big-endian by default
         ByteBuffer buf = ByteBuffer.wrap(arr);
         return buf.getInt();
+    }
+
+    public static String getDateCurrentTimeZone(long timestamp) {
+        String date = "";
+        try{
+            Calendar cal = Calendar.getInstance(Locale.getDefault());
+            cal.setTimeInMillis(timestamp * 1000L);
+            date = DateFormat.format("yyyy-MM-dd hh:mm:ss", cal).toString();
+        }catch (Exception e) {
+        }
+        return date;
     }
 }

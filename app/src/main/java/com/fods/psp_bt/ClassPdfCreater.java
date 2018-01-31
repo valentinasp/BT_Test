@@ -32,6 +32,7 @@ import java.util.Locale;
 
 import static com.fods.psp_bt.ClassPdfCreater.fvalue_t.value_less;
 import static com.fods.psp_bt.ClassPdfCreater.fvalue_t.value_more;
+import static com.fods.psp_bt.SOR.TestParamS;
 import static com.fods.psp_bt.SOR.getACI;
 import static com.fods.psp_bt.SOR.getEventName;
 import static com.fods.psp_bt.SOR.getLen_KM;
@@ -188,24 +189,31 @@ public final class ClassPdfCreater {
 
         float x1 = left;
         float x2 = x1 + (float)(width * 0.20);
-        float x3 = x2 + (float)(width * 0.30);
-        float x4 = x3 + (float)(width * 0.20);
-        float x5 = right;
+        float x3 = right;
+        //float x3 = x2 + (float)(width * 0.30);
+        //float x4 = x3 + (float)(width * 0.20);
+        //float x5 = right;
 
-        float h1 = 5 * block_line1_height + block_line3_height;
-        float h3 = 5 * block_line1_height + block_line3_height;
+        //float h1 = 5 * block_line1_height + block_line3_height;
+        //float h3 = 5 * block_line1_height + block_line3_height;
 
+        //Customer
         float y1 = y - block_line1_height;
+        //Operator
         float y2 = y1 - block_line1_height;
+        //Device ID
         float y3 = y2 - block_line1_height;
+        //Device ser.
         float y4 = y3 - block_line1_height;
+        //Software version
         float y5 = y4 - block_line1_height;
-        float y6 = y5 - block_line3_height;
+
+        //float y6 = y5 - block_line3_height;
 
         float m = 2;
         float m2 = 6;
 
-        contentStream.addRect(x1, y6, x5-x1, y-y6);
+        contentStream.addRect(x1, y5, x3-x1, y-y5);
         //contentStream.setStrokingColor(0, 0, 0);
         contentStream.setStrokingColor(255, 0, 0);
         contentStream.setLineWidth(1.0f);
@@ -215,59 +223,60 @@ public final class ClassPdfCreater {
         contentStream.setLineWidth(0.5f);
 
         contentStream.moveTo(x2, y);
-        contentStream.lineTo(x2, y6);
+        contentStream.lineTo(x2, y5);
         contentStream.stroke();
 
-        contentStream.moveTo(x3, y);
-        contentStream.lineTo(x3, y5);
-        contentStream.stroke();
+        //contentStream.moveTo(x3, y);
+        //contentStream.lineTo(x3, y5);
+        //contentStream.stroke();
 
-        contentStream.moveTo(x4, y);
-        contentStream.lineTo(x4, y5);
-        contentStream.stroke();
+        //contentStream.moveTo(x4, y);
+        //contentStream.lineTo(x4, y5);
+        //contentStream.stroke();
 
         contentStream.moveTo(x1, y1);
-        contentStream.lineTo(x5, y1);
+        contentStream.lineTo(x3, y1);
         contentStream.stroke();
 
         contentStream.moveTo(x1, y2);
-        contentStream.lineTo(x5, y2);
+        contentStream.lineTo(x3, y2);
         contentStream.stroke();
 
         contentStream.moveTo(x1, y3);
-        contentStream.lineTo(x5, y3);
+        contentStream.lineTo(x3, y3);
         contentStream.stroke();
 
         contentStream.moveTo(x1, y4);
-        contentStream.lineTo(x5, y4);
+        contentStream.lineTo(x3, y4);
         contentStream.stroke();
 
-        contentStream.moveTo(x1, y5);
-        contentStream.lineTo(x5, y5);
-        contentStream.stroke();
+        //contentStream.moveTo(x1, y5);
+        //contentStream.lineTo(x5, y5);
+        //contentStream.stroke();
 
 
         //contentStream.setNonStrokingColor(0, 0, 0);
         contentStream.setNonStrokingColor(15, 38, 192);
         contentStream.setFont(font_roboto_regular, font_size);
 
-        System.out.println("customer:" + MainActivity.getInstance().getString(R.string.pdf_customer));
+        //System.out.println("customer:" + MainActivity.getInstance().getString(R.string.pdf_customer));
 
         DoText(x1+m2, y -m-font_size, MainActivity.getInstance().getString(R.string.pdf_customer));
-        DoText(x1+m2, y1-m-font_size, MainActivity.getInstance().getString(R.string.pdf_company));
-        DoText(x1+m2, y2-m-font_size, MainActivity.getInstance().getString(R.string.pdf_location));
-        DoText(x1+m2, y3-m-font_size, MainActivity.getInstance().getString(R.string.pdf_operator));
-        DoText(x1+m2, y4-m-font_size, MainActivity.getInstance().getString(R.string.pdf_filename));
+        DoText(x1+m2, y1-m-font_size, MainActivity.getInstance().getString(R.string.pdf_operator));
+        DoText(x1+m2, y2-m-font_size, MainActivity.getInstance().getString(R.string.pdf_device_id));
+        DoText(x1+m2, y3-m-font_size, MainActivity.getInstance().getString(R.string.pdf_device_sn));
+        DoText(x1+m2, y4-m-font_size, MainActivity.getInstance().getString(R.string.pdf_sw_version));
 
-        DoText(x3+m2, y -m-font_size, MainActivity.getInstance().getString(R.string.pdf_job_id));
-        DoText(x3+m2, y1-m-font_size, MainActivity.getInstance().getString(R.string.pdf_cable_id));
-        DoText(x3+m2, y2-m-font_size, MainActivity.getInstance().getString(R.string.pdf_cable_end));
-        DoText(x3+m2, y3-m-font_size, MainActivity.getInstance().getString(R.string.pdf_fiber_id));
-        DoText(x3+m2, y4-m-font_size, MainActivity.getInstance().getString(R.string.pdf_datetime));
+        //DoText(x3+m2, y -m-font_size, MainActivity.getInstance().getString(R.string.pdf_job_id));
+        //DoText(x3+m2, y1-m-font_size, MainActivity.getInstance().getString(R.string.pdf_cable_id));
+        //DoText(x3+m2, y2-m-font_size, MainActivity.getInstance().getString(R.string.pdf_cable_end));
+        //DoText(x3+m2, y3-m-font_size, MainActivity.getInstance().getString(R.string.pdf_fiber_id));
+        //DoText(x1+m2, y5-m-font_size, MainActivity.getInstance().getString(R.string.pdf_datetime));
 
-        DoText(x1+m2, y5-m-font_size, MainActivity.getInstance().getString(R.string.pdf_comment));
+        //DoText(x1+m2, y5-m-font_size, MainActivity.getInstance().getString(R.string.pdf_comment));
 
 
+        //Create editable fields
         acroForm = new PDAcroForm(document);
         PDResources resources = new PDResources();
         resources.put(COSName.getPDFName("Helv"), PDType1Font.HELVETICA);
@@ -278,16 +287,16 @@ public final class ClassPdfCreater {
         document.getDocumentCatalog().setAcroForm(acroForm);
 
         DoTextField("Customer", false, x2+m, y1+m, x3-x2-m-m, y -y1-m-m, "");
-        DoTextField("Company" , false, x2+m, y2+m, x3-x2-m-m, y1-y2-m-m, "");
-        DoTextField("Location", false, x2+m, y3+m, x3-x2-m-m, y2-y3-m-m, "");
-        DoTextField("Operator", false, x2+m, y4+m, x3-x2-m-m, y3-y4-m-m, "");
+        DoTextField("Operator" , false, x2+m, y2+m, x3-x2-m-m, y1-y2-m-m, "");
+        //DoTextField("Location", false, x2+m, y3+m, x3-x2-m-m, y2-y3-m-m, "");
+        //DoTextField("Operator", false, x2+m, y4+m, x3-x2-m-m, y3-y4-m-m, "");
+        //==============================
 
         //DoText(x2+m, y4-m-font_size, "test");
 
-        DoText(x4+m2, y -m-font_size, "Job 1");
-        DoText(x4+m2, y1-m-font_size, "cable1");
-        DoText(x4+m2, y2-m-font_size, "cable2");
-        DoText(x4+m2, y3-m-font_size, "Fiber3");
+        DoText(x2+m2, y2-m-font_size, TestParamS.MFID);
+        DoText(x2+m2, y3-m-font_size, TestParamS.OTDR);
+        DoText(x2+m2, y4-m-font_size, TestParamS.SR);
 
         Locale locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -298,14 +307,83 @@ public final class ClassPdfCreater {
             locale = MainActivity.getInstance().getResources().getConfiguration().locale;
         }
 
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM,locale);
-        DoText(x4+m2, y4-m-font_size, "20171201 15:35");
+        //DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM,locale);
+        //DoText(x4+m2, y4-m-font_size, "20171201 15:35");
 
         //DoTextField("Comment", true, x2+m, y6+m, x5-x2-m-m, y5-y6-m-m, "my comment");
 
-        y=y6;
+        y=y5;
+    }
 
+    private void DoLocations() throws IOException{
 
+        float font_size = 10;
+        float block_margin_top = 8;
+        float block_line1_height = 16;
+
+        y -= block_margin_top;
+
+        float x1 = left;
+        float x2 = x1 + (float)(width * 0.20);
+        float x3 = right;
+
+        //OTDR End
+        float y1 = y - block_line1_height;
+        //FAR End
+        float y2 = y1 - block_line1_height;
+        //Cable
+        float y3 = y2 - block_line1_height;
+        //Link
+        float y4 = y3 - block_line1_height;
+        //Time Stamp
+        float y5 = y4 - block_line1_height;
+
+        float m = 2;
+        float m2 = 6;
+
+        contentStream.addRect(x1, y5, x3-x1, y-y5);
+        contentStream.setStrokingColor(255, 0, 0);
+        contentStream.setLineWidth(1.0f);
+        contentStream.stroke();
+
+        contentStream.setLineWidth(0.5f);
+
+        contentStream.moveTo(x2, y);
+        contentStream.lineTo(x2, y5);
+        contentStream.stroke();
+
+        contentStream.moveTo(x1, y1);
+        contentStream.lineTo(x3, y1);
+        contentStream.stroke();
+
+        contentStream.moveTo(x1, y2);
+        contentStream.lineTo(x3, y2);
+        contentStream.stroke();
+
+        contentStream.moveTo(x1, y3);
+        contentStream.lineTo(x3, y3);
+        contentStream.stroke();
+
+        contentStream.moveTo(x1, y4);
+        contentStream.lineTo(x3, y4);
+        contentStream.stroke();
+
+        contentStream.setNonStrokingColor(15, 38, 192);
+        contentStream.setFont(font_roboto_regular, font_size);
+
+        DoText(x1+m2, y -m-font_size, MainActivity.getInstance().getString(R.string.pdf_otdr_end));
+        DoText(x1+m2, y1-m-font_size, MainActivity.getInstance().getString(R.string.pdf_far_end));
+        DoText(x1+m2, y2-m-font_size, MainActivity.getInstance().getString(R.string.pdf_cable));
+        DoText(x1+m2, y3-m-font_size, MainActivity.getInstance().getString(R.string.pdf_link));
+        DoText(x1+m2, y4-m-font_size, MainActivity.getInstance().getString(R.string.pdf_time_stamp));
+
+        DoText(x2+m2, y-m-font_size, TestParamS.OL);
+        DoText(x2+m2, y1-m-font_size,TestParamS.TL);
+        DoText(x2+m2, y2-m-font_size,TestParamS.CID);
+        DoText(x2+m2, y3-m-font_size,TestParamS.FID);
+        DoText(x2+m2, y4-m-font_size, SOR.getDateCurrentTimeZone(TestParamS.TimeStamp));//
+
+        y=y5;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -350,6 +428,41 @@ public final class ClassPdfCreater {
         DoText(x6+m2, y-m-font_size, "ACI");
 
         while(line_n != 0) {
+            float event_size = block_line1_height;
+            if(line_n>1){
+                event_size += block_line1_height;
+            }
+            if((y - block_line1_height)-event_size < 0){
+
+                y = y - block_line1_height;
+                contentStream.setStrokingColor(255, 0, 0);
+                contentStream.setLineWidth(1.0f);
+                contentStream.addRect(x1, y1, x7-x1, y-y1);
+                y1 += block_line1_height;
+                DoLine(x2 ,y, x2, y1);
+                contentStream.addRect(x3, y1, x4-x3, y-y1);
+                contentStream.addRect(x5, y1, x6-x5, y-y1);
+                contentStream.stroke();
+
+                newPage();
+                DoHeader1("Events");
+                y -= block_margin_top;
+                y1 = y - block_line1_height;
+                //add heder rect
+                contentStream.addRect(x1, y1, x7-x1, y-y1);
+                contentStream.setStrokingColor(255, 0, 0);
+                contentStream.setLineWidth(1.0f);
+                contentStream.stroke();
+
+                contentStream.setFont(font_roboto_regular, font_size);
+                DoText(x1+m2, y-m-font_size, "Nr.");
+                DoText(x2+m2, y-m-font_size, "TYPE");
+                DoText(x3+m2, y-m-font_size, "L,km");
+                DoText(x4+m2, y-m-font_size, "Loss,db");
+                DoText(x5+m2, y-m-font_size, "Ref.,db");
+                DoText(x6+m2, y-m-font_size, "ACI");
+            }
+
             y = y - block_line1_height;
             EventNR = "Nr." + (CurrEvntNr + 1);
             DoText(x1 + m2, y - m - font_size, EventNR);
@@ -494,11 +607,12 @@ public final class ClassPdfCreater {
 
     }
 
-    private void DoGraph() throws IOException{
+    private void DoGraph() throws IOException {
         float rect_height = 200;
         float block_margin_top = 8;
-        float graph_ponts = (right-left)* 9;//*10;
-        float point_height = (float) (rect_height/65535.0);
+        float graph_ponts = (right - left) * 10;//*10;
+        float point_width;
+        float point_height = (float) (rect_height / 65535.0);
         float LineXPoints;
         float LineYPoints;
 
@@ -511,68 +625,68 @@ public final class ClassPdfCreater {
         contentStream.fillRect(left, y-rect_height, ZoneWidth, rect_height);
 */
         //draw sale linens
-        contentStream.setNonStrokingColor(128,128,128);
+        contentStream.setNonStrokingColor(128, 128, 128);
         //contentStream.fillRect(left, y-rect_height, right-left, rect_height);
         LineYPoints = rect_height;
         contentStream.setLineWidth(0.5f);
         //contentStream.setStrokingColor(58,58,58);
-        contentStream.setStrokingColor(0,0,0);
+        contentStream.setStrokingColor(0, 0, 0);
         boolean draw_point = true;
         float LineWidth = 1;
-        float y1 = y-rect_height;
-        float y2 = y1+LineWidth;
+        float y1 = y - rect_height;
+        float y2 = y1 + LineWidth;
 
         while (draw_point) {
-            float offset = rect_height/5;
+            float offset = rect_height / 5;
             float x_cnt = 0;
             LineXPoints = right;
             float curr_x = left + offset;
-            do{
+            do {
                 DoLine(curr_x, y1, curr_x, y2);
                 x_cnt++;
                 curr_x = left + offset * x_cnt;
-            }while (LineXPoints > curr_x);
-            if(y2 == y){
+            } while (LineXPoints > curr_x);
+            if (y2 == y) {
                 draw_point = false;
                 //break;
             }
-            y1 = y1+(LineWidth*2)+1;
-            if(y1 > y) {
+            y1 = y1 + (LineWidth * 2) + 1;
+            if (y1 > y) {
                 draw_point = false;
                 //break;
             }
-            y2 = y1+LineWidth;
-            if(y2 > y){
+            y2 = y1 + LineWidth;
+            if (y2 > y) {
                 y2 = y;
             }
         }
         draw_point = true;
         float x1 = left;
-        float x2 = x1+LineWidth;
+        float x2 = x1 + LineWidth;
 
         while (draw_point) {
-            float offset = rect_height/5;
+            float offset = rect_height / 5;
             float y_cnt = 0;
-            LineYPoints = y-rect_height;
+            LineYPoints = y - rect_height;
 
-            float curr_y = y-rect_height;
-            do{
+            float curr_y = y - rect_height;
+            do {
                 DoLine(x1, curr_y, x2, curr_y);
                 y_cnt++;
                 curr_y = LineYPoints + offset * y_cnt;
-            }while (y > curr_y);
+            } while (y > curr_y);
 
-            if(x2 == right){
+            if (x2 == right) {
                 draw_point = false;
                 //break;
             }
-            x1 = x1+(LineWidth*2)+1;
-            if(x1 > right) {
+            x1 = x1 + (LineWidth * 2) + 1;
+            if (x1 > right) {
                 draw_point = false;
                 //break;
             }
-            x2 = x1+LineWidth;
-            if(x2 > right){
+            x2 = x1 + LineWidth;
+            if (x2 > right) {
                 x2 = right;
             }
         }
@@ -615,9 +729,14 @@ public final class ClassPdfCreater {
         }
 */
         //DoLine(right ,y-rect_height, right, y);
-
-        float Coefficient = (float) (SOR.sk.length/graph_ponts);
-        draw_dec(Coefficient, graph_ponts,y-rect_height,point_height);
+        float Coefficient = (float) ((SOR.sk.length) / graph_ponts);
+        if (SOR.sk.length < graph_ponts) {
+            point_width = (float) (0.1 + ((graph_ponts-SOR.sk.length)/SOR.sk.length * 0.1));
+            graph_ponts = SOR.sk.length;
+        }else{
+            point_width = (float) 0.1;
+        }
+        draw_dec(Coefficient, graph_ponts,y-rect_height,point_height,point_width);
 
 /*
         //draw markers
@@ -677,7 +796,8 @@ public final class ClassPdfCreater {
             DoHeader0();
             DoHeader1("General Information");
             DoGeneralInformation();
-
+            DoHeader1("Locations");
+            DoLocations();
             // Write Hello World in blue text
             //contentStream.beginText();
             //contentStream.setNonStrokingColor(15, 38, 192);
@@ -694,6 +814,10 @@ public final class ClassPdfCreater {
             contentStream.close();
             // Save the final pdf document to a file
             //String path = root.getAbsolutePath() + "/Download/Created.pdf";
+// New page
+
+// New page
+
             document.save(path);
             document.close();
             System.out.println("!PDF Created!");
@@ -706,6 +830,15 @@ public final class ClassPdfCreater {
     }
 
     //helpers
+    public void newPage() throws IOException {
+        contentStream.close();
+        PDPage page = new PDPage(PDRectangle.A4);
+        contentStream = new PDPageContentStream(document, page);
+        //InitFonts();
+        y = top;
+        document.addPage(page);
+    }
+
     // Method for getting the maximum value
     public static float getMax(float[] inputArray){
         float maxValue = inputArray[0];
@@ -845,7 +978,7 @@ public final class ClassPdfCreater {
         return drow_point;
     }
 
-    private int draw_dec(float Coefficient,float MaxGraphPonts,float graph_y, float point_height)throws IOException{
+    private int draw_dec(float Coefficient,float MaxGraphPonts,float graph_y, float point_height,float point_width)throws IOException{
         float temp_Coefficient = Coefficient;
         int MaxPoints = (int)MaxGraphPonts;
         int drow_point = 0;
@@ -863,18 +996,11 @@ public final class ClassPdfCreater {
         y1 = (float) (getMax(SOR.sk)*0.001)*point_height;
         int y_min = 65535;
 
-        //GraphView graph = (GraphView) MainActivity.getInstance().findViewById(R.id.graph);
-        //DataPoint[] dp = new DataPoint[SOR.sk.length];//new DataPoint[(int)MaxGraphPonts];
-        //for(int i = 0;i < dp.length;i++){
-        //    //dp[i] = new DataPoint(0, 0);
-        //    dp[i] = new DataPoint(i, (double)SOR.sk[i]);
-        //}
 
         while (MaxPoints-- > 0) {
             if (temp_Coefficient < 1) {
                 while (temp_Coefficient < 1) {
                     temp_Coefficient += Coefficient;
-                    //drow_point++;
                 }
             }
             if (temp_Coefficient >= 1) {
@@ -891,14 +1017,13 @@ public final class ClassPdfCreater {
                         stored_y[1] = (y_min - getMin(point_arr))*point_height;
                         if(stored_y[0] > stored_y[1]){
                             //draw first
-                            x2 += 0.1;
+                            x2 += point_width;
                             y2 = stored_y[0];
                             DoLine(x1+left ,graph_y+y1, x2+left, graph_y+y2);
                             y1 = y2;
                             x1 = x2;
                             //draw second
-                            x2 += 0.1;
-                            //y2 = (float)(y_min*point_height);
+                            x2 += point_width;
                             y2 = 0;
                             DoLine(x1+left ,graph_y+y1, x2+left, graph_y+y2);
                             y1 = y2;
@@ -906,13 +1031,12 @@ public final class ClassPdfCreater {
                         }else{
                             //draw first
                             x2 += 0.1;
-                            //y2 = (float)(y_min*point_height);
                             y2 = 0;
                             DoLine(x1+left ,graph_y+y1, x2+left, graph_y+y2);
                             y1 = y2;
                             x1 = x2;
                             //draw second
-                            x2 += 0.1;
+                            x2 += point_width;
                             y2 = stored_y[1];
                             DoLine(x1+left ,graph_y+y1, x2+left, graph_y+y2);
                             y1 = y2;
@@ -927,20 +1051,21 @@ public final class ClassPdfCreater {
                     if(have_less) {
                         //draw 2 points
                         //draw first
-                        x2 += 0.1;
-                        y2 = 0;
+                        x2 += point_width;
+                        y2 = Coefficient;
                         DoLine(x1+left ,graph_y+y1, x2+left, graph_y+y2);
                         y1 = y2;
                         x1 = x2;
                         //draw second
-                        x2 += 0.1;
+                        x2 += point_width;
                         y2 = (float) ((y_min - getMin(point_arr))*point_height);
                         DoLine(x1+left ,graph_y+y1, x2+left, graph_y+y2);
                         y1 = y2;
                         x1 = x2;
                         have_less = false;
                     }else{
-                        x2 += 0.1;
+                        //x2 += 0.1;
+                        x2 += point_width;
                         //draw 1 points
                         y2 = (float) ((y_min - getMin(point_arr))*point_height);
                         DoLine(x1+left ,graph_y+y1, x2+left, graph_y+y2);
@@ -951,8 +1076,6 @@ public final class ClassPdfCreater {
                 drow_point++;
             }
         }
-        //LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
-        //graph.addSeries(series);
         return drow_point;
     }
 

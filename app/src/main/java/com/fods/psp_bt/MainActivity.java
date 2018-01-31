@@ -6,6 +6,7 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
@@ -20,6 +21,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -1074,6 +1077,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private ProgressDialog pDialog = null;
 
     private class SorSendThread extends Thread {
         final File sorfile;
@@ -1086,6 +1090,14 @@ public class MainActivity extends AppCompatActivity {
             String fileNameWithOutExt = sorfile.getName().replaceFirst("[.][^.]+$", "");
             fileNamePdf = "/sdcard/" + fileNameWithOutExt + ".pdf";
             genPdf = new File(fileNamePdf);
+
+            if(pDialog == null) {
+                MainActivity.getInstance().runOnUiThread(new Runnable() {
+                    public void run() {
+                        pDialog = ProgressDialog.show(MainActivity.this, "Generating Report", "Please wait...", true);
+                    }
+                });
+            }
             _canceled = false;
         }
 
@@ -1165,7 +1177,7 @@ public class MainActivity extends AppCompatActivity {
                         } catch (final Exception ex) {
                             System.err.println(ex);
                         }
-
+                        cancel();
                     }
                 }).start();
             }else{
@@ -1174,6 +1186,10 @@ public class MainActivity extends AppCompatActivity {
         }
         /* Call this from the main activity to shutdown the connection */
         public void cancel() {
+            if(pDialog != null) {
+                pDialog.dismiss();
+                pDialog = null;
+            }
             _canceled = true;
         }
     }
